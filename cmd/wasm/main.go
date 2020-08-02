@@ -24,6 +24,7 @@ func jsonWrapper() js.Func {
 		if len(args) != 1 {
 			return "invalid number of arguments passed"
 		}
+
 		jsDoc := js.Global().Get("document")
 		if !jsDoc.Truthy() {
 			return "unable to find the DOM"
