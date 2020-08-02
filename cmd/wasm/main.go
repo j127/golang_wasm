@@ -22,7 +22,7 @@ func prettyJson(input string, indentation int) (string, error) {
 func jsonWrapper() js.Func {
 	jsonFunc := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		if len(args) != 1 {
-			return "Invalid no of arguments passed"
+			return "invalid number of arguments passed"
 		}
 		inputJSON := args[0].String()
 		// var indentation int
@@ -35,7 +35,7 @@ func jsonWrapper() js.Func {
 		fmt.Printf("input %s\n", inputJSON)
 		pretty, err := prettyJson(inputJSON, indentation)
 		if err != nil {
-			fmt.Printf("unable to convert to json %s\n", err)
+			fmt.Printf("unable to convert to JSON %s\n", err)
 			return err.Error()
 		}
 		return pretty
@@ -44,7 +44,7 @@ func jsonWrapper() js.Func {
 }
 
 func main() {
-	fmt.Println("Go Web Assembly")
+	fmt.Println("hello world from wasm")
 	js.Global().Set("formatJSON", jsonWrapper())
 
 	// If you don't block here, the Go program will exit.

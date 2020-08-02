@@ -35,19 +35,14 @@ license that can be found in the LICENSE file.
                 .then((result) => {
                     mod = result.module;
                     inst = result.instance;
-                    document.getElementById("runButton").disabled = false;
+
+                    go.run(inst);
                 })
                 .catch((err) => {
                     console.error(err);
                 });
-
-            async function run() {
-                console.clear();
-                await go.run(inst);
-                inst = await WebAssembly.instantiate(mod, go.importObject); // reset instance
-            }
         </script>
 
-        <button onClick="run();" id="runButton" disabled>Run</button>
+        <h1>hello wasm</h1>
     </body>
 </html>
