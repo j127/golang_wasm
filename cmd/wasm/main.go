@@ -1,14 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"syscall/js"
+)
 
 func prettyJson(input string) (string, error) {
 	var raw interface{}
-	if err := json.Unmarshall([]byte(input), &raw; err != nil {
+	if err := json.Unmarshal([]byte(input), &raw); err != nil {
 		return "", err
-	})
+	}
 
-	pretty, err := json.MarshallIndent(raw, "", "    ")
+	pretty, err := json.MarshalIndent(raw, "", "    ")
 	if err != nil {
 		return "", err
 	}
