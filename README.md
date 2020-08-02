@@ -1,6 +1,6 @@
 # Golang Wasm Experiment
 
-TODO: use tinygo to compile
+Problems: this JSON prettifier creates a 2.7MB wasm file just to prettify JSON. I tried to compile it with tinygo, but that doesn't support all the needed libraries.
 
 ```text
 $ make build
