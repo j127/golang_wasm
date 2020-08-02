@@ -1,9 +1,4 @@
 <!DOCTYPE html>
-<!--
-Copyright 2018 The Go Authors. All rights reserved.
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file.
--->
 <html>
     <head>
         <meta charset="utf-8" />
@@ -44,5 +39,27 @@ license that can be found in the LICENSE file.
         </script>
 
         <h1>hello wasm</h1>
+        <textarea
+            id="jsoninput"
+            name="jsoninput"
+            cols="80"
+            rows="20"
+        ></textarea>
+        <input
+            id="button"
+            type="submit"
+            name="button"
+            value="pretty json"
+            onclick="json(jsoninput.value)"
+        />
+        <textarea
+            id="jsonoutput"
+            name="jsonoutput"
+            cols="80"
+            rows="20"
+        ></textarea>
+        <script>
+            const json = (input) => (jsonoutput.value = formatJSON(input));
+        </script>
     </body>
 </html>
