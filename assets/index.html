@@ -60,9 +60,17 @@
         ></textarea>
         <script>
             const json = (input) => {
+                if (!input.trim()) {
+                    alert("it looks like you didn't enter any JSON");
+                    return;
+                }
+
                 const result = formatJSON(input);
-                console.log("value from Go", result);
-                // jsonoutput.value = formatJSON(input);
+                if (result !== null && "error" in result) {
+                    console.log("Go return value:", result);
+                    jsonoutput.value = "";
+                    alert(result.error);
+                }
             };
         </script>
     </body>

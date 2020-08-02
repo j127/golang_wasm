@@ -19,20 +19,31 @@ func prettyJson(input string, indentation int) (string, error) {
 	return string(pretty), nil
 }
 
+// TODO: this function updates the DOM, but shouldn't this program also export
+// the prettify function so that other JS could use it directly?
 func jsonWrapper() js.Func {
 	jsonFunc := js.FuncOf(func(this js.Value, args []js.Value) interface{} {
 		if len(args) != 1 {
-			return "invalid number of arguments passed"
+			result := map[string]interface{}{
+				"error": "invalid number of arguments passed",
+			}
+			return result
 		}
 
 		jsDoc := js.Global().Get("document")
 		if !jsDoc.Truthy() {
-			return "unable to find the DOM"
+			result := map[string]interface{}{
+				"error": "unable to find the DOM",
+			}
+			return result
 		}
 
 		jsonOutputTextArea := jsDoc.Call("getElementById", "jsonoutput")
 		if !jsonOutputTextArea.Truthy() {
-			return "unable to get output textarea"
+			result := map[string]interface{}{
+				"error": "unable to get output textarea",
+			}
+			return result
 		}
 
 		inputJSON := args[0].String()
@@ -47,12 +58,14 @@ func jsonWrapper() js.Func {
 		pretty, err := prettyJson(inputJSON, indentation)
 		if err != nil {
 			errStr := fmt.Sprintf("unable to parse JSON. Error\n", err)
-			return errStr
+			result := map[string]interface{}{
+				"error": errStr,
+			}
+			return result
 		}
+
 		jsonOutputTextArea.Set("value", pretty)
-		// originally, this returned `pretty`, but it returned `nil` in the second part
-		// return nil
-		return pretty
+		return nil
 	})
 	return jsonFunc
 }
