@@ -59,7 +59,11 @@
             rows="20"
         ></textarea>
         <script>
-            const json = (input) => (jsonoutput.value = formatJSON(input));
+            const json = (input) => {
+                const result = formatJSON(input);
+                console.log("value from Go", result);
+                // jsonoutput.value = formatJSON(input);
+            };
         </script>
     </body>
 </html>

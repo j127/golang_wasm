@@ -24,6 +24,16 @@ func jsonWrapper() js.Func {
 		if len(args) != 1 {
 			return "invalid number of arguments passed"
 		}
+		jsDoc := js.Global().Get("document")
+		if !jsDoc.Truthy() {
+			return "unable to find the DOM"
+		}
+
+		jsonOutputTextArea := jsDoc.Call("getElementById", "jsonoutput")
+		if !jsonOutputTextArea.Truthy() {
+			return "unable to get output textarea"
+		}
+
 		inputJSON := args[0].String()
 		// var indentation int
 		// if args[1] != "" {
@@ -35,9 +45,12 @@ func jsonWrapper() js.Func {
 		fmt.Printf("input %s\n", inputJSON)
 		pretty, err := prettyJson(inputJSON, indentation)
 		if err != nil {
-			fmt.Printf("unable to convert to JSON %s\n", err)
-			return err.Error()
+			errStr := fmt.Sprintf("unable to parse JSON. Error\n", err)
+			return errStr
 		}
+		jsonOutputTextArea.Set("value", pretty)
+		// originally, this returned `pretty`, but it returned `nil` in the second part
+		// return nil
 		return pretty
 	})
 	return jsonFunc
