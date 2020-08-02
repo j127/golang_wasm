@@ -3,15 +3,16 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"syscall/js"
 )
 
-func prettyJson(input string) (string, error) {
+func prettyJson(input string, indentation int) (string, error) {
 	var raw interface{}
 	if err := json.Unmarshal([]byte(input), &raw); err != nil {
 		return "", err
 	}
-	pretty, err := json.MarshalIndent(raw, "", "    ")
+	pretty, err := json.MarshalIndent(raw, "", strings.Repeat(" ", indentation))
 	if err != nil {
 		return "", err
 	}
@@ -24,8 +25,15 @@ func jsonWrapper() js.Func {
 			return "Invalid no of arguments passed"
 		}
 		inputJSON := args[0].String()
+		// var indentation int
+		// if args[1] != "" {
+		// 	indentation = args[1].Int()
+		// } else {
+		// 	indentation = 4
+		// }
+		indentation := 4
 		fmt.Printf("input %s\n", inputJSON)
-		pretty, err := prettyJson(inputJSON)
+		pretty, err := prettyJson(inputJSON, indentation)
 		if err != nil {
 			fmt.Printf("unable to convert to json %s\n", err)
 			return err.Error()
